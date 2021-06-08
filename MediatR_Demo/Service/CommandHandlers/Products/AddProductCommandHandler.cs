@@ -1,8 +1,9 @@
-﻿using Common.Common;
+﻿using AutoMapper;
+using Common.Common;
+using Data.Entities;
 using Dto.Commands.Products;
 using MediatR;
 using Repository;
-using Service.Mappers;
 using Service.ValidatorServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,22 +14,23 @@ namespace Service.CommandHandlers.Products
     {
         private readonly IValidatorService _validatorService;
         private readonly IProductRepository _productRepository;
-        private readonly ProductMapper _productMapper;
+        private readonly IMapper _mapper;
 
         public AddProductCommandHandler(
             IValidatorService validatorService,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            IMapper mapper)
         {
             _validatorService = validatorService;
             _productRepository = productRepository;
-            _productMapper = new ProductMapper();
+            _mapper = mapper;
         }
 
         public async Task<IActionResult<int>> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
             await _validatorService.ValidateCommand(request);
 
-            var product = _productMapper.MapFromAddProductCommand(request);
+            var product = _mapper.Map<Product>(request);
 
             _productRepository.Add(product);
 

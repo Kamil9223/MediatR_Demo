@@ -32,6 +32,8 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> AddProduct(ProductRequestDto dto)
         {
+            var command = _mapper.Map<AddProductCommand>(dto);
+
             var result = await _mediator.Send(command);
 
             return Ok(result.Data);
@@ -40,6 +42,12 @@ namespace API.Controllers
         [HttpPut("{id}:int")]
         public async Task<ActionResult> UpdateProduct(int id, ProductRequestDto dto)
         {
+            var command = _mapper.Map<UpdateProductCommand>(dto,
+                opt =>
+            {
+                opt.Items[nameof(UpdateProductCommand.Id)] = id;
+            });
+
             var result = await _mediator.Send(command);
 
             if (result.IsSuccess)

@@ -9,6 +9,7 @@ namespace Repository.IoC
         {
             services.AddDbContext<DatabaseContext>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 
             return services;
         }

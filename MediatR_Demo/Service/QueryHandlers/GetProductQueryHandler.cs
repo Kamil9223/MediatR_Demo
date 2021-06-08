@@ -1,8 +1,8 @@
-﻿using Dto.Dtos;
+﻿using AutoMapper;
+using Dto.Dtos;
 using Dto.Queries.Products;
 using MediatR;
 using Repository;
-using Service.Mappers;
 using Service.ValidatorServices;
 using System;
 using System.Threading;
@@ -14,15 +14,16 @@ namespace Service.QueryHandlers
     {
         private readonly IValidatorService _validatorService;
         private readonly IProductRepository _productRepository;
-        private readonly ProductMapper _productMapper;
+        private readonly IMapper _mapper;
 
         public GetProductQueryHandler(
             IValidatorService validatorService,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            IMapper mapper)
         {
             _validatorService = validatorService;
             _productRepository = productRepository;
-            _productMapper = new ProductMapper();
+            _mapper = mapper;
         }
 
         public async Task<ProductDto> Handle(GetProductQuery request, CancellationToken cancellationToken)
@@ -34,7 +35,7 @@ namespace Service.QueryHandlers
                 throw new Exception("Not Found!");
             }
 
-            return _productMapper.MapToProductDto(product);
+            return _mapper.Map<ProductDto>(product);
         }
     }
 }

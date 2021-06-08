@@ -12,5 +12,6 @@ namespace Repository
         Task<Product> GetProduct(int id);
         Task<ProductWithCategory> GetProductWithCategory(int id);
         void Add(Product product);
+        void SaveChanges();
     }
 }

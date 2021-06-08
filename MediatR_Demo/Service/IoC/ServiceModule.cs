@@ -14,9 +14,11 @@ namespace Service.IoC
             services.AddRepository();
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             //Pipes will be executing top to bootom
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(AuthorizationPipe<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(WrapperPipe<,>));
 
             services.AddScoped<IValidatorService, ValidatorService>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();

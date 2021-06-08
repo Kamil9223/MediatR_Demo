@@ -38,5 +38,10 @@ namespace Repository
             _databaseContext.Products.Add(product);
             _databaseContext.SaveChanges();
         }
+
+        public void SaveChanges()
+        {
+            _databaseContext.SaveChanges();
+        }
     }
 }
