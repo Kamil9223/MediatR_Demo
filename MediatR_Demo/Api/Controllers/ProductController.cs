@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Dto.Commands.Products;
 using Dto.Dtos;
+using Dto.Notifications;
 using Dto.Queries.Products;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,13 @@ namespace API.Controllers
                 return Ok(result);
             }
             return BadRequest(result.ErrorMessage);
+        }
+
+        [HttpGet("notify")]
+        public async Task<IActionResult> Notify()
+        {
+            await _mediator.Publish(new NotifyRequest());
+            return Ok();
         }
     }
 }
